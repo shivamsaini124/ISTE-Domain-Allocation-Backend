@@ -11,7 +11,6 @@ import {verifyFirebaseToken} from './middlewares/firebase.js';
 import { apiKeyMiddleware } from './middlewares/apiKey.js';
 
 //Importing all models here
-import {User, Domain, Selection, McqAnswer, TextAnswer, McqQuestion, TextQuestion, Task, Submission, Interview} from './models/model.js';
 
 //Evironemnet variables
 dotenv.config();
