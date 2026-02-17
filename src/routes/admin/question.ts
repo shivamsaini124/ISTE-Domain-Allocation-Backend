@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { Questionnaire, McqQuestion, TextQuestion } from "../../models/question.js";
-import { createQuestionnaireSchema, mcqQuestionSchema, textQuestionSchema } from "../../validation/admin/question.js";
+import { createQuestionnaireSchema, mcqQuestionSchema, textQuestionSchema, updateQuestionnaireSchema } from "../../validation/admin/question.js";
 import { Response as ResponseModel } from "../../models/answer.js";
 import mongoose from "mongoose";
 
@@ -78,7 +78,7 @@ export const updateQuestionnaire = async (req: Request<{questionnaireId: string}
             return res.status(400).json({ message: "Invalid questionnaire ID" });
         }
 
-        const validation = createQuestionnaireSchema.safeParse(req.body);
+        const validation = updateQuestionnaireSchema.safeParse(req.body);
         if (!validation.success) {
             console.error("Validation error:\n", validation.error);
             return res.status(400).json({ message: "Send valid data" });

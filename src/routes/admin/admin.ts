@@ -19,7 +19,7 @@ AdminRouter.post("/login", login);
 AdminRouter.use(verifyAdmin);
 AdminRouter.get("/user", getAllUsers);
 AdminRouter.get("/user/:userId", getUser);
-AdminRouter.get("/user/:domain", getUserByDomain);
+AdminRouter.get("/user/domain/:domain", getUserByDomain);
 
 AdminRouter.get("/whitelist", getWhitelistedUsers);
 AdminRouter.post("/whitelist", addWhitelistedUsers);
@@ -36,12 +36,12 @@ AdminRouter.post("/questionnaire/:domainId", addQuestionnaire);
 AdminRouter.put("/questionnaire/:questionnaireId", updateQuestionnaire);
 AdminRouter.delete("/questionnaire/:questionnaireId", deleteQuestionnaire);
 
+AdminRouter.get("/response", getResponse);
+
 AdminRouter.put("/question/mcq/:questionId", updateMcqQuestion);
 AdminRouter.put("/question/text/:questionId", updateTextQuestion);
 AdminRouter.delete("/question/mcq/:questionId", deleteMcqQuestion);
 AdminRouter.delete("/question/text/:questionId", deleteTextQuestion);
-
-AdminRouter.get("/response", getResponse);
 
 AdminRouter.get("/interview", getAllInterviews);
 AdminRouter.get("/interview/:interviewId", getInterviewById);

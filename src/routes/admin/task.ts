@@ -56,7 +56,8 @@ export const updateTask = async (req: Request<{ taskId: string }>, res: Response
 
         const validation = updateTaskSchema.safeParse(req.body);
         if (!validation.success) {
-            return res.status(400).json({ message: "Send valid data", error: validation.error });
+            console.error("Validation error:\n", validation.error)
+            return res.status(400).json({ message: "Send valid data"});
         }
 
         const task = await Task.findByIdAndUpdate(taskId, validation.data, { new: true }).lean();
