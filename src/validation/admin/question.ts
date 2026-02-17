@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 // MCQ Question Schema
-const mcqQuestionSchema = z.object({
+export const mcqQuestionSchema = z.object({
   question: z.string().min(1, "Question is required"),
 
   options: z
@@ -18,7 +18,7 @@ const mcqQuestionSchema = z.object({
 );
 
 // Text Question Schema
-const textQuestionSchema = z.object({
+export const textQuestionSchema = z.object({
   question: z.string().min(1, "Question is required"),
 });
 
@@ -34,7 +34,7 @@ export const createQuestionnaireSchema = z
   .refine(
     (data) =>
       (data.mcqQuestions?.length ?? 0) +
-        (data.textQuestions?.length ?? 0) >
+      (data.textQuestions?.length ?? 0) >
       0,
     {
       message: "At least one question is required",

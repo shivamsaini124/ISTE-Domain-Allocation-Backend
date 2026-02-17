@@ -1,15 +1,14 @@
-import {Router} from "express";
-import {verifyFirebaseToken} from "../../middlewares/firebase.js";
-import {login} from "./login.js";
-import {getAllUsers, getUser} from "./user.js";
-import {verifyAdmin} from "../../middlewares/admin.js";
-import {getWhitelistedUsers, addWhitelistedUsers, removeWhitelistedUsers} from "./whitelisted.js";
-import {getUserByDomain} from "./user.js";
-import {getDomain, getAllDomains, addDomain, removeDomain, updateDomain} from "./domain.js";
+import { Router } from "express";
+import { verifyFirebaseToken } from "../../middlewares/firebase.js";
+import { login } from "./login.js";
+import { getAllUsers, getUser } from "./user.js";
+import { verifyAdmin } from "../../middlewares/admin.js";
+import { getWhitelistedUsers, addWhitelistedUsers, removeWhitelistedUsers } from "./whitelisted.js";
+import { getUserByDomain } from "./user.js";
+import { getDomain, getAllDomains, addDomain, removeDomain, updateDomain } from "./domain.js";
 import { addQuestionnaire, updateQuestionnaire, deleteQuestionnaire, getAllQuestionnaire, getResponse, updateTextQuestion, updateMcqQuestion } from "./question.js";
 import { getAllInterviews, getInterviewById, updateInterview, cancelInterview, scheduleInterview } from "./interview.js";
-import { getAllTask } from "../user/task.js";
-import { addTask, deleteTask, updateTask } from "./task.js";
+import { getTask, addTask, deleteTask, updateTask } from "./task.js";
 import { getAllSubmission } from "./submission.js";
 
 export const AdminRouter: Router = Router();
@@ -48,7 +47,7 @@ AdminRouter.post("/interview", scheduleInterview);
 AdminRouter.put("/interview/:interviewId", updateInterview);
 AdminRouter.delete("/interview/:interviewId", cancelInterview);
 
-AdminRouter.get("/task", getAllTask);
+AdminRouter.get("/task", getTask);
 AdminRouter.post("/task", addTask);
 AdminRouter.put("/task/:taskId", updateTask);
 AdminRouter.delete("/task/:taskId", deleteTask);
