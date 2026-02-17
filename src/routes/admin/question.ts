@@ -8,7 +8,7 @@ export const getAllQuestionnaire = async (req: Request, res: Response) => {
     try {
         const questionnaire = await Questionnaire.find().populate("mcqQuestions").populate("textQuestions").lean();
         if (questionnaire.length === 0) {
-            res.status(404).json({ message: "No questionnaire found" });
+            return res.status(404).json({ message: "No questionnaire found" });
         }
 
         res.status(200).json({ message: "Questionnaire fetched successfully", data: questionnaire });
