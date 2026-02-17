@@ -71,12 +71,96 @@ export const addQuestionnaire = async (req: Request<{domainId: string}>, res: Re
 }
 
 export const updateQuestionnaire = async (req: Request<{questionnaireId: string}>, res: Response) => {
-    res.status(501).json({message: "Not implemented"});
+    try {
+        const { questionnaireId } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(questionnaireId)) {
+            return res.status(400).json({ message: "Invalid questionnaire ID" });
+        }
+
+        const validation = createQuestionnaireSchema.safeParse(req.body);
+        if (!validation.success) {
+            console.error("Validation error:\n", validation.error);
+            return res.status(400).json({ message: "Send valid data" });
+        }
+
+        const { dueDate } = validation.data;
+
+        const updatedQuestionnaire = await Questionnaire.findByIdAndUpdate(
+            questionnaireId,
+            { dueDate: new Date(dueDate) },
+            { new: true }
+        );
+
+        if (!updatedQuestionnaire) {
+            return res.status(404).json({ message: "Questionnaire not found" });
+        }
+
+        res.status(200).json({ message: "Questionnaire updated successfully", data: updatedQuestionnaire });
+    } catch (err) {
+        console.error("Error updating questionnaire:\n", err);
+        res.status(500).json({ message: "Error while updating questionnaire" });
+    }
 }
 
-export const deleteQuestionnaire = async (req: Request, res: Response) => {
-    res.status(501).json({message: "Not implemented"});
-}
+
+export const deleteQuestionnaire = async (
+  req: Request<{ questionnaireId: string }>,
+  res: Response
+) => {
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+
+    const { questionnaireId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(questionnaireId)) {
+      await session.abortTransaction();
+      return res.status(400).json({ message: "Invalid questionnaire ID" });
+    }
+
+    const questionnaire = await Questionnaire
+      .findById(questionnaireId)
+      .session(session);
+
+    if (!questionnaire) {
+      await session.abortTransaction();
+      return res.status(404).json({ message: "Questionnaire not found" });
+    }
+
+    // Delete related questions in bulk
+    await TextQuestion.deleteMany(
+      { _id: { $in: questionnaire.textQuestions } },
+      { session }
+    );
+
+    await McqQuestion.deleteMany(
+      { _id: { $in: questionnaire.mcqQuestions } },
+      { session }
+    );
+
+    // Delete questionnaire
+    await Questionnaire.findByIdAndDelete(questionnaireId, { session });
+
+    await session.commitTransaction();
+
+    return res.status(200).json({
+      message: "Questionnaire deleted successfully",
+    });
+
+  } catch (err) {
+    await session.abortTransaction();
+    console.error("Error deleting questionnaire:\n", err);
+
+    return res.status(500).json({
+      message: "Error while deleting questionnaire",
+    });
+
+  } finally {
+    session.endSession();
+  }
+};
+
 
 export const getResponse = async (req: Request, res: Response) => {
     res.status(501).json({message: "Not implemented"});
@@ -87,5 +171,13 @@ export const updateMcqQuestion = async (req: Request<{questionId: string}>, res:
 }
 
 export const updateTextQuestion = async (req: Request<{questionId: string}>, res: Response) => {
+    res.status(501).json({message: "Not implemented"});
+}
+
+export const deleteTextQuestion = async (req: Request<{questionId: string}>, res: Response) => {
+    res.status(501).json({message: "Not implemented"});
+}
+
+export const deleteMcqQuestion = async (req: Request<{questionId: string}>, res: Response) => {
     res.status(501).json({message: "Not implemented"});
 }

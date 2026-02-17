@@ -6,7 +6,7 @@ import {verifyAdmin} from "../../middlewares/admin.js";
 import {getWhitelistedUsers, addWhitelistedUsers, removeWhitelistedUsers} from "./whitelisted.js";
 import {getUserByDomain} from "./user.js";
 import {getDomain, getAllDomains, addDomain, removeDomain, updateDomain} from "./domain.js";
-import { addQuestionnaire, updateQuestionnaire, deleteQuestionnaire, getAllQuestionnaire, getResponse, updateTextQuestion, updateMcqQuestion } from "./question.js";
+import { addQuestionnaire, updateQuestionnaire, deleteQuestionnaire, getAllQuestionnaire, getResponse, updateTextQuestion, updateMcqQuestion, deleteMcqQuestion, deleteTextQuestion } from "./question.js";
 import { getAllInterviews, getInterviewById, updateInterview, cancelInterview, scheduleInterview } from "./interview.js";
 import { getAllTask } from "../user/task.js";
 import { addTask, deleteTask, updateTask } from "./task.js";
@@ -39,6 +39,8 @@ AdminRouter.delete("/questionnaire/:questionnaireId", deleteQuestionnaire);
 
 AdminRouter.put("/question/mcq/:questionId", updateMcqQuestion);
 AdminRouter.put("/question/text/:questionId", updateTextQuestion);
+AdminRouter.delete("/question/mcq/:questionId", deleteMcqQuestion);
+AdminRouter.delete("/question/text/:questionId", deleteTextQuestion);
 
 AdminRouter.get("/response", getResponse);
 

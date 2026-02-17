@@ -40,3 +40,8 @@ export const createQuestionnaireSchema = z
       message: "At least one question is required",
     }
   );
+
+
+export const updateQuestionnaireSchema = z.object({
+    dueDate: z.string().datetime()
+})
