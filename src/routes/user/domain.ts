@@ -68,20 +68,8 @@ export const applyForDomain = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Prevent exceeding max 2 total domains
-    const existingCount = user.selectedDomainIds.length;
-    const uniqueNewIds = domainIds.filter(
-      (id: string) => !user.selectedDomainIds.map(String).includes(id)
-    );
-
-    if (existingCount + uniqueNewIds.length > 2) {
-      return res.status(400).json({
-        message: "You can apply for maximum 2 domains in total",
-      });
-    }
-
     // Add domains
-    user.selectedDomainIds.push(...uniqueNewIds);
+    user.selectedDomainIds = domainIds;
     await user.save();
 
     res.status(200).json({
