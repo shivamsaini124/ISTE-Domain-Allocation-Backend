@@ -33,44 +33,67 @@ export const getDomain = async (req: Request<{domainId: string}>, res: Response)
 }
 
 export const applyForDomain = async (req: Request, res: Response) => {
-    try {
-        const { domainId } = req.body;
-        if (!domainId) {
-            return res.status(400).json({ message: "Domain ID is required" });
-        }
+  try {
+    const { domainIds } = req.body; // expecting array
 
-        if (!mongoose.Types.ObjectId.isValid(domainId)) {
-            return res.status(400).json({ message: "Invalid domain ID" });
-        }
-        
-        const domain = await Domain.findById(domainId);
-        if (!domain) {
-            return res.status(404).json({message: "Domain not found"});
-        }
-
-        const userEmail = req.user?.email;
-        if (!userEmail) {
-            return res.status(401).json({ message: "User not authenticated" });
-        }
-
-        const user = await User.findOneAndUpdate(
-            { email: userEmail },
-            { $addToSet: { selectedDomainIds: domainId } },
-            { new: true, runValidators: true }
-        );
-
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        res.status(200).json({message: "Domain applied successfully", data: { domain, user }});
-    } catch (error: any) {
-        console.error("Error applying for domain:\n", error);
-        
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({message: "Cannot apply for domain. You may have already applied or reached the maximum limit."});
-        }
-        
-        res.status(500).json({message: "Error while applying for domain"});
+    if (!Array.isArray(domainIds) || domainIds.length === 0) {
+      return res.status(400).json({
+        message: "domainIds must be a non-empty array",
+      });
     }
-}
+
+    if (domainIds.length > 2) {
+      return res.status(400).json({
+        message: "You can apply for maximum 2 domains at once",
+      });
+    }
+
+    // Validate ObjectIds
+    for (const id of domainIds) {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+          message: `Invalid domain ID: ${id}`,
+        });
+      }
+    }
+
+    const userEmail = req.user?.email;
+    if (!userEmail) {
+      return res.status(401).json({ message: "User not authenticated" });
+    }
+
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Prevent exceeding max 2 total domains
+    const existingCount = user.selectedDomainIds.length;
+    const uniqueNewIds = domainIds.filter(
+      (id: string) => !user.selectedDomainIds.map(String).includes(id)
+    );
+
+    if (existingCount + uniqueNewIds.length > 2) {
+      return res.status(400).json({
+        message: "You can apply for maximum 2 domains in total",
+      });
+    }
+
+    // Add domains
+    user.selectedDomainIds.push(...uniqueNewIds);
+    await user.save();
+
+    res.status(200).json({
+      message: "Domain(s) applied successfully",
+      data: user,
+    });
+
+  } catch (error: any) {
+    console.error("Error applying for domain:\n", error);
+
+    res.status(500).json({
+      message: "Error while applying for domain",
+    });
+  }
+};
