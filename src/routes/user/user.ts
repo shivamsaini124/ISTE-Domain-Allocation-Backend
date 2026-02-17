@@ -4,7 +4,7 @@ import { loginOrSignup } from "./login.js";
 import { verifyUser } from "../../middlewares/user.js";
 import { completeProfile, getProfile, updateProfile } from "./profile.js";
 import {getAllDomains, getDomain, applyForDomain} from "./domain.js";
-import { getQuestionnareByDomain, getResponse, submitResponse, updateResponse} from "./question.js";
+import { getQuestionnaireByDomain, getResponse, submitResponse, updateResponse} from "./question.js";
 import { getInterviews } from "./interview.js";
 import { getAllTask, getSubmission, getTaskByDomain, submitSubmission, updateSubmission, deleteSubmission } from "./task.js";
 
@@ -22,7 +22,7 @@ UserRouter.get("/domain", getAllDomains);
 UserRouter.get("/domain/:domainId", getDomain);
 UserRouter.post("/domain/apply", applyForDomain);
 
-UserRouter.get("/questionnare/:domainId", getQuestionnareByDomain);
+UserRouter.get("/questionnaire/:domainId", getQuestionnaireByDomain);
 
 UserRouter.get("/response", getResponse);
 UserRouter.post("/response", submitResponse);

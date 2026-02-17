@@ -23,7 +23,7 @@ const textQuestionSchema = z.object({
 });
 
 // Main Create Questionnaire Schema
-export const createQuestionarreSchema = z
+export const createQuestionnaireSchema = z
   .object({
     mcqQuestions: z.array(mcqQuestionSchema).optional(),
 

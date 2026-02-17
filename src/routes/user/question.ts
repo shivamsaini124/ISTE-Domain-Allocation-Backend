@@ -1,11 +1,11 @@
 import type {Request, Response} from "express";
-import {Questionarre} from "../../models/question.js"
+import {Questionnaire} from "../../models/question.js"
 import mongoose from "mongoose";
 import { Response as ResponseModel} from "../../models/answer.js";
 import { User } from "../../models/user.js";
 import {submitResponseSchema, updateResponseSchema } from "../../validation/user/question.js";
 
-export const getQuestionnareByDomain = async (req: Request<{ domainId: string }>,res: Response) => {
+export const getQuestionnaireByDomain = async (req: Request<{ domainId: string }>,res: Response) => {
   try {
     const { domainId } = req.params;
 
@@ -13,17 +13,17 @@ export const getQuestionnareByDomain = async (req: Request<{ domainId: string }>
       return res.status(400).json({ message: "Invalid domain ID" });
     }
 
-    const questionarre = await Questionarre.findOne({ domainId })
+    const questionnaire = await Questionnaire.findOne({ domainId })
       .populate("mcqQuestions")
       .populate("textQuestions");
 
-    if (!questionarre) {
+    if (!questionnaire) {
       return res.status(404).json({
         message: "Questionnaire not found for this domain"
       });
     }
 
-    if (questionarre.dueDate < new Date()) {
+    if (questionnaire.dueDate < new Date()) {
       return res.status(403).json({
         message: "Questionnaire due date is over"
       });
@@ -31,7 +31,7 @@ export const getQuestionnareByDomain = async (req: Request<{ domainId: string }>
 
     return res.status(200).json({
       message: "Questionnaire fetched successfully",
-      data: questionarre
+      data: questionnaire
     });
 
   } catch (error) {
@@ -51,19 +51,19 @@ export const submitResponse = async (req: Request, res: Response) => {
             return res.status(400).json({message: "Send valid data"});
         }
 
-        const {questionarreId, mcqAnswers, textAnswers} = validation.data;
+        const {questionnaireId, mcqAnswers, textAnswers} = validation.data;
 
-        const questionnare = await Questionarre.findById(questionarreId)
+        const questionnaire = await Questionnaire.findById(questionnaireId)
             .populate("mcqQuestions")
             .populate("textQuestions");
 
 
-        if(!questionnare){
+        if(!questionnaire){
             return res.status(404).json({message: "Questionnaire not found"});
         }
 
-        const requiredMcqIds = new Set(questionnare.mcqQuestions.map(q => q._id.toString()));
-        const requiredTextIds = new Set(questionnare.textQuestions.map(q => q._id.toString()));
+        const requiredMcqIds = new Set(questionnaire.mcqQuestions.map(q => q._id.toString()));
+        const requiredTextIds = new Set(questionnaire.textQuestions.map(q => q._id.toString()));
 
         const submittedMcqIds = new Set(mcqAnswers.map(a => a.questionId));
         const submittedTextIds = new Set(textAnswers.map(a => a.questionId));
@@ -93,7 +93,7 @@ export const submitResponse = async (req: Request, res: Response) => {
         }
 
         for (const answer of mcqAnswers) {
-            const question = (questionnare.mcqQuestions as any[]).find(q => q._id.toString() === answer.questionId);
+            const question = (questionnaire.mcqQuestions as any[]).find(q => q._id.toString() === answer.questionId);
             if (!question) {
                 // This case should be covered by the ID set checks, but it's good for robustness
                 return res.status(400).json({ message: `MCQ Question with id ${answer.questionId} not found in questionnaire` });
@@ -113,14 +113,14 @@ export const submitResponse = async (req: Request, res: Response) => {
             return res.status(404).json({message: "User not found"});
         }
 
-        const existingResponse = await ResponseModel.findOne({ userId: user._id, questionarreId });
+        const existingResponse = await ResponseModel.findOne({ userId: user._id, questionnaireId });
         if (existingResponse) {
             return res.status(409).json({ message: "You have already submitted a response for this questionnaire" });
         }
 
         const newResponse = await ResponseModel.create({
             userId: user._id,
-            questionarreId,
+            questionnaireId,
             mcqAnswers,
             textAnswers,
         });

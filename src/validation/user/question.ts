@@ -2,7 +2,7 @@ import { z } from "zod";
 import mongoose from "mongoose";
 
 export const submitResponseSchema = z.object({
-  questionarreId: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
+  questionnaireId: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
     message: "Invalid questionnaire ID",
   }),
   mcqAnswers: z.array(

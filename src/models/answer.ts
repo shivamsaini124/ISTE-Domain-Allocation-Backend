@@ -12,7 +12,7 @@ const textAnswerSchema = new Schema({
 
 const responseSchema = new Schema({
     userId: {type: Schema.Types.ObjectId, ref: 'User', required: true},
-    questionarreId: {type: Schema.Types.ObjectId, ref: 'Questionarre', required: true},
+    questionnaireId: {type: Schema.Types.ObjectId, ref: 'Questionnaire', required: true},
     mcqAnswers: [mcqAnswerSchema],
     textAnswers: [textAnswerSchema],
     submittedAt: {type: Date, default: Date.now}

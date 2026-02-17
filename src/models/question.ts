@@ -11,13 +11,13 @@ const textQuestionSchema = new Schema({
 });
 
 
-const questionarreSchema = new Schema({
+const questionnaireSchema = new Schema({
     domainId: {type: Schema.Types.ObjectId, ref: 'Domain', required: true},
     mcqQuestions: [{type: Schema.Types.ObjectId, ref: 'McqQuestion'}],
     textQuestions: [{type: Schema.Types.ObjectId, ref: 'TextQuestion'}],
     dueDate: {type: Date, required: true},
 });
 
-export const Questionarre = model('Questionarre', questionarreSchema);
+export const Questionnaire = model('Questionnaire', questionnaireSchema);
 export const McqQuestion = model('McqQuestion', mcqQuestionSchema);
 export const TextQuestion = model('TextQuestion', textQuestionSchema);
