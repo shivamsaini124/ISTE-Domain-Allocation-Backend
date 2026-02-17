@@ -6,8 +6,11 @@ import {verifyAdmin} from "../../middlewares/admin.js";
 import {getWhitelistedUsers, addWhitelistedUsers, removeWhitelistedUsers} from "./whitelisted.js";
 import {getUserByDomain} from "./user.js";
 import {getDomain, getAllDomains, addDomain, removeDomain, updateDomain} from "./domain.js";
-import { addQuestionnare, updateQuestionnare, deleteQuestionnare, getQuestionnare } from "./question.js";
+import { addQuestionnare, updateQuestionnare, deleteQuestionnare, getAllQuestionnare, getResponse, updateTextQuestion, updateMcqQuestion } from "./question.js";
 import { getAllInterviews, getInterviewById, updateInterview, cancelInterview, scheduleInterview } from "./interview.js";
+import { getAllTask } from "../user/task.js";
+import { addTask, deleteTask, updateTask } from "./task.js";
+import { getAllSubmission } from "./submission.js";
 
 export const AdminRouter: Router = Router();
 
@@ -29,10 +32,15 @@ AdminRouter.post("/domain", addDomain);
 AdminRouter.put("/domain/:domainId", updateDomain);
 AdminRouter.delete("/domain/:domainId", removeDomain);
 
-AdminRouter.get("/questionnare/:questionnareId", getQuestionnare);
+AdminRouter.get("/questionnare/", getAllQuestionnare);
 AdminRouter.post("/questionnare/:domainId", addQuestionnare);
 AdminRouter.put("/questionnare/:questionnareId", updateQuestionnare);
 AdminRouter.delete("/questionnare/:questionnareId", deleteQuestionnare);
+
+AdminRouter.put("/question/mcq/:questionId", updateMcqQuestion);
+AdminRouter.put("/question/text/:questionId", updateTextQuestion);
+
+AdminRouter.get("/response", getResponse);
 
 AdminRouter.get("/interview", getAllInterviews);
 AdminRouter.get("/interview/:interviewId", getInterviewById);
@@ -40,4 +48,10 @@ AdminRouter.post("/interview", scheduleInterview);
 AdminRouter.put("/interview/:interviewId", updateInterview);
 AdminRouter.delete("/interview/:interviewId", cancelInterview);
 
-//Tasks left
+AdminRouter.get("/task", getAllTask);
+AdminRouter.post("/task", addTask);
+AdminRouter.put("/task/:taskId", updateTask);
+AdminRouter.delete("/task/:taskId", deleteTask);
+
+AdminRouter.get("/submission", getAllSubmission);
+
