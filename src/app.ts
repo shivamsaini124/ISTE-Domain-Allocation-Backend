@@ -61,17 +61,6 @@ app.use((req: Request, res: Response) => {
 });
 
 
-//Start Server
-async function startServer(): Promise<void> {
-  try {
-    await connectToDatabase();
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  } catch (err) {
-    console.log('Failed to start server!!!');
-    console.error(err);
-  }
-}
-startServer();
+connectToDatabase().catch(console.error);
 
+export default app;

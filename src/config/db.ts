@@ -1,20 +1,29 @@
-import dotenv from 'dotenv';
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-dotenv.config();
+const MONGODB_URI = process.env.DB!;
 
-export async function connectToDatabase(): Promise<void> {
-  const dbUrl = process.env.DB;
-  if (!dbUrl) {
-    console.error('Database URL (DB) not provided in environment variables.');
-    return;
+if (!MONGODB_URI) {
+  throw new Error("Please define the DB environment variable");
+}
+
+let cached = (global as any).mongoose;
+
+if (!cached) {
+  cached = (global as any).mongoose = { conn: null, promise: null };
+}
+
+export async function connectToDatabase() {
+  if (cached.conn) {
+    return cached.conn;
   }
 
-  try {
-    await mongoose.connect(dbUrl);
-    console.log('Connected to database');
-  } catch (err: any) {
-    console.error('Database connection failed:', err.message || err);
-    throw err;
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => {
+      console.log("Connected to MongoDB");
+      return mongoose;
+    });
   }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
 }
