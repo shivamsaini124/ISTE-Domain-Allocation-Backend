@@ -15,17 +15,18 @@ const allowedOrigins = ALLOWED_ORIGINS
 
 //Cors options
 export const corsOptions: CorsOptions = {
-  origin: function (origin, callback) {
-    if(!origin){
-        if(NODE_ENV === 'dev') return callback(null, true);
-        else return callback(new Error('Not allowed by CORS'));
-    }
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true, 
+  // function (origin, callback) {
+  //   if(!origin){
+  //       if(NODE_ENV === 'dev') return callback(null, true);
+  //       else return callback(new Error('Not allowed by CORS'));
+  //   }
+  //   if (!origin || allowedOrigins.includes(origin)) {
+  //     callback(null, true);
+  //   } else {
+  //     callback(new Error('Not allowed by CORS'));
+  //   }
+  // },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 };
