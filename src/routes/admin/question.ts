@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { Questionnaire, McqQuestion, TextQuestion } from "../../models/question.js";
-import { createQuestionnaireSchema, mcqQuestionSchema, textQuestionSchema, updateQuestionnaireSchema } from "../../validation/admin/question.js";
-import { Response as ResponseModel } from "../../models/answer.js";
+import { Questionnaire, McqQuestion, TextQuestion } from "../../models/question";
+import { createQuestionnaireSchema, mcqQuestionSchema, textQuestionSchema, updateQuestionnaireSchema } from "../../validation/admin/question";
+import { Response as ResponseModel } from "../../models/answer";
 import mongoose from "mongoose";
 
 export const getAllQuestionnaire = async (req: Request, res: Response) => {

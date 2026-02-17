@@ -1,6 +1,6 @@
 import type {Request, Response} from 'express';
-import { User } from '../../models/user.js';
-import { completeProfileSchema, updateProfileSchema } from '../../validation/user/profile.js';
+import { User } from '../../models/user';
+import { completeProfileSchema, updateProfileSchema } from '../../validation/user/profile';
 
 export const getProfile = async (req: Request, res: Response) => {
     try{

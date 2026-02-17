@@ -1,9 +1,9 @@
 import type {Request, Response} from "express";
-import { Task } from "../../models/task.js";
-import { Submission } from "../../models/submission.js";
+import { Task } from "../../models/task";
+import { Submission } from "../../models/submission";
 import mongoose from "mongoose";
-import { submitSubmissionSchema, updateSubmissionSchema } from "../../validation/user/task.js";
-import { User } from "../../models/user.js";
+import { submitSubmissionSchema, updateSubmissionSchema } from "../../validation/user/task";
+import { User } from "../../models/user";
 
 export const getAllTask = async (req: Request, res: Response) => {
     try {

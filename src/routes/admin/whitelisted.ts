@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { WhitelistedUser } from '../../models/whitelistedUser.js';
+import { WhitelistedUser } from '../../models/whitelistedUser';
 
 export const getWhitelistedUsers = async (req: Request, res: Response) => {
     try {

@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { verifyFirebaseToken } from "../../middlewares/firebase.js";
-import { loginOrSignup } from "./login.js";
-import { verifyUser } from "../../middlewares/user.js";
-import { completeProfile, getProfile, updateProfile } from "./profile.js";
-import {getAllDomains, getDomain, applyForDomain} from "./domain.js";
-import { getQuestionnaireByDomain, getResponse, submitResponse, updateResponse} from "./question.js";
-import { getInterviews } from "./interview.js";
-import { getAllTask, getSubmission, getTaskByDomain, submitSubmission, updateSubmission, deleteSubmission } from "./task.js";
+import { verifyFirebaseToken } from "../../middlewares/firebase";
+import { loginOrSignup } from "./login";
+import { verifyUser } from "../../middlewares/user";
+import { completeProfile, getProfile, updateProfile } from "./profile";
+import {getAllDomains, getDomain, applyForDomain} from "./domain";
+import { getQuestionnaireByDomain, getResponse, submitResponse, updateResponse} from "./question";
+import { getInterviews } from "./interview";
+import { getAllTask, getSubmission, getTaskByDomain, submitSubmission, updateSubmission, deleteSubmission } from "./task";
 
 export const UserRouter: Router = Router();
 

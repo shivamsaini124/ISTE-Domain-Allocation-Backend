@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import {Interview} from "../../models/interview.js";
+import {Interview} from "../../models/interview";
 import {z} from "zod";
-import {scheduleInterviewSchema, updateInterviewSchema} from "../../validation/admin/interview.js";
+import {scheduleInterviewSchema, updateInterviewSchema} from "../../validation/admin/interview";
 
 export const getAllInterviews = async (req: Request, res: Response) => {
     try {

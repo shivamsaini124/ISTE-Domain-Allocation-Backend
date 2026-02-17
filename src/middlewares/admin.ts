@@ -1,6 +1,6 @@
 import type {Request, Response, NextFunction} from 'express';
-import { Admin } from '../models/admin.js';
-import type { UserInterface } from '../types/user.js';
+import { Admin } from '../models/admin';
+import type { UserInterface } from '../types/user';
 
 export const verifyAdmin = async (req: Request, res: Response, next: NextFunction) => {
     try {

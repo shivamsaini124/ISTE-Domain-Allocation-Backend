@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import type { UserInterface } from "../../types/user.js";
-import { Admin } from "../../models/admin.js";
+import type { UserInterface } from "../../types/user";
+import { Admin } from "../../models/admin";
 
 export const login = async (req: Request, res: Response) => {
     try{

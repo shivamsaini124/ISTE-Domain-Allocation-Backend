@@ -1,24 +1,16 @@
 //Import all the modules
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
 
 import type {NextFunction, Request, Response} from 'express';
 
-import {corsOptions} from './config/cors.js';
-import {connectToDatabase} from './config/db.js';
-import {verifyFirebaseToken} from './middlewares/firebase.js';
-import {apiKeyMiddleware} from './middlewares/apiKey.js';
-import {verifyAdmin} from './middlewares/admin.js';
-import {verifyUser} from './middlewares/user.js';
-import { UserRouter } from './routes/user/user.js';
-import { AdminRouter } from './routes/admin/admin.js';
-
-//Importing all models here
-
-//Evironemnet variables
-dotenv.config();
-const PORT = process.env.PORT || '3000';
+import {corsOptions} from './config/cors';
+import {verifyFirebaseToken} from './middlewares/firebase';
+import {apiKeyMiddleware} from './middlewares/apiKey';
+import {verifyAdmin} from './middlewares/admin';
+import {verifyUser} from './middlewares/user';
+import { UserRouter } from './routes/user/user';
+import { AdminRouter } from './routes/admin/admin';
 
 const app = express();
 app.set('trust proxy', 1);
@@ -60,7 +52,5 @@ app.use((req: Request, res: Response) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-
-connectToDatabase().catch(console.error);
 
 export default app;

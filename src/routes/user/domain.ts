@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import type {Request, Response} from "express";
-import { Domain } from "../../models/domain.js";
-import { User } from "../../models/user.js";
+import { Domain } from "../../models/domain";
+import { User } from "../../models/user";
 
 export const getAllDomains = async (req: Request, res: Response) => {
     try {

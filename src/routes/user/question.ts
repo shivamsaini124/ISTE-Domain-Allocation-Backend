@@ -1,9 +1,9 @@
 import type {Request, Response} from "express";
-import {Questionnaire} from "../../models/question.js"
+import {Questionnaire} from "../../models/question"
 import mongoose from "mongoose";
-import { Response as ResponseModel} from "../../models/answer.js";
-import { User } from "../../models/user.js";
-import {submitResponseSchema, updateResponseSchema } from "../../validation/user/question.js";
+import { Response as ResponseModel} from "../../models/answer";
+import { User } from "../../models/user";
+import {submitResponseSchema, updateResponseSchema } from "../../validation/user/question";
 
 export const getQuestionnaireByDomain = async (req: Request<{ domainId: string }>,res: Response) => {
   try {

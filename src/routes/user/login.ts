@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import type { UserInterface } from "../../types/user.js";
-import { User } from "../../models/user.js";
-import { WhitelistedUser } from "../../models/whitelistedUser.js";
+import type { UserInterface } from "../../types/user";
+import { User } from "../../models/user";
+import { WhitelistedUser } from "../../models/whitelistedUser";
 
 export const loginOrSignup = async (req: Request, res: Response) => {
     try{

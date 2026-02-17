@@ -1,5 +1,5 @@
 import type {Request, Response} from "express";
-import {Submission} from "../../models/submission.js"
+import {Submission} from "../../models/submission"
 
 export const getAllSubmission = async (req: Request, res: Response) => {
     try{

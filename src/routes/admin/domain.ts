@@ -1,6 +1,6 @@
 import type {Response, Request} from 'express';
-import { Domain } from '../../models/domain.js';
-import { addDomainSchema, updateDomainSchema } from '../../validation/admin/domain.js';
+import { Domain } from '../../models/domain';
+import { addDomainSchema, updateDomainSchema } from '../../validation/admin/domain';
 import mongoose from 'mongoose';
 
 export const getDomain = async (req: Request<{domainId: string}>, res: Response) => {

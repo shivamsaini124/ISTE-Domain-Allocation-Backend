@@ -1,6 +1,6 @@
 import type {Request, Response} from "express";
-import { Interview } from "../../models/interview.js";
-import { User } from "../../models/user.js";
+import { Interview } from "../../models/interview";
+import { User } from "../../models/user";
 
 export const getInterviews = async (req: Request, res: Response) => {
     try {
