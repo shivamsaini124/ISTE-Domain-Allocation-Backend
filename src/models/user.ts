@@ -5,8 +5,8 @@ const userSchema = new Schema({
     regNo: {type: String, unique: true},
     email: {type: String, required: true, unique: true},
     branch: {type: String},
-    githubLink: {type: String, unique: true},
-    leetcodeLink: {type: String, unique: true},
+    githubLink: {type: String, unique: true, sparse: true},
+    leetcodeLink: {type: String, unique: true, sparse: true},
     selectedDomainIds: {
         type: [{ type: Schema.Types.ObjectId, ref: 'Domain' }],
         validate: {
