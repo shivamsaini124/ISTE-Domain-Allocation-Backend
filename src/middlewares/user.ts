@@ -1,6 +1,5 @@
 import type {Request, Response, NextFunction} from 'express';
 import { User } from '../models/user';
-import type { UserInterface } from '../types/user';
 
 export const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
