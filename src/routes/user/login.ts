@@ -11,11 +11,11 @@ export const loginOrSignup = async (req: Request, res: Response) => {
         }
 
         //Checking if user is whitelisted or not
-        const whitelistedUser = await WhitelistedUser.findOne({email: user.email});
+        // const whitelistedUser = await WhitelistedUser.findOne({email: user.email});
 
-        if(!whitelistedUser){
-            return res.status(403).json({message: "User is not registered for the Chapter"});
-        }
+        // if(!whitelistedUser){
+        //     return res.status(403).json({message: "User is not registered for the Chapter"});
+        // }
 
         const userFound = await User.findOneAndUpdate(
             {email: user.email},
